@@ -1,0 +1,1 @@
+sudo docker exec -it ncsa-react-frontend-cont /bin/sh

@@ -1,0 +1,46 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches: [main]
+
+concurrency:
+  group: deploy-prod
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      IMAGE: registry.digitalocean.com/fun-tests/fun-tests:prod-${{ github.sha }}
+      DOCR_USERNAME: ${{ secrets.DOCR_USERNAME }}
+      DOCR_PASSWORD: ${{ secrets.DOCR_PASSWORD }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install doctl (Digital Ocean Command Line Tool)
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DO_ACCESS_TOKEN }}
+
+      - name: Login to DOCR (Digital Ocean Container Registry)
+        run: doctl registry login
+
+      - name: Build, Tag, and Push Image to DOCR
+        run: |
+          docker build --pull -t "$IMAGE" .
+          docker push "$IMAGE"
+
+      - name: SSH deploy (git pull & docker up)
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.DO_DROPLET_HOST }}
+          username: ${{ secrets.DO_DROPLET_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          envs: IMAGE,DOCR_USERNAME,DOCR_PASSWORD
+          script: |
+            cd ncsa_react_frontend/
+
+            ./deploy.sh

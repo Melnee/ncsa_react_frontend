@@ -1,0 +1,13 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    container_name: ncsa-react-frontend-cont
+    ports: ["5173:5173"]
+    volumes:
+      - .:/ncsa_react_frontend
+      - /ncsa_react_frontend/node_modules
+    stdin_open: true
