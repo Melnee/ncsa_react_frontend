@@ -6,7 +6,7 @@ services:
     env_file:
       - .env
     ports:
-      - "${PORT:-3002}:3002"
+      - "${PORT:-5173}:5173"
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:5173/"]
