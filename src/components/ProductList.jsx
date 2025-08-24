@@ -62,8 +62,25 @@ export default function ProductList({ title, items=[] }) {
       <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:8}}>
         <h2 style={{margin:0}}>{title}</h2>
         <div className="pager" style={{display:"flex",gap:8}}>
-          <button onClick={prev} disabled={start===0} aria-label="Previous page">←</button>
-          <button onClick={next} disabled={start>=maxStart} aria-label="Next page">→</button>
+        <button
+          onClick={prev}
+          style={{visibility: start===0 ? "hidden" : "visible"}}
+          aria-label="Previous page"
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="15 18 9 12 15 6" />
+          </svg>
+        </button>
+
+        <button
+          onClick={next}
+          style={{visibility: start>=maxStart ? "hidden" : "visible"}}
+          aria-label="Next page"
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="9 18 15 12 9 6" />
+          </svg>
+        </button>
         </div>
       </div>
 
