@@ -23,9 +23,9 @@ export default function ProductList({ title, items=[] }) {
     setStart(s => Math.min(s, Math.max(0, items.length - PAGE)));
   }, [items.length, PAGE]);
 
-  const prev = () => setStart(s => Math.max(0, s - 1));
-  const next = () => setStart(s => Math.min(maxStart, s + 1));
-
+  const prev = () => setStart(s => Math.max(0, s - PAGE));
+  const next = () => setStart(s => Math.min(maxStart, s + PAGE));
+  
   const fallback = "https://placehold.co/128x128?text=img";
 
   return (
