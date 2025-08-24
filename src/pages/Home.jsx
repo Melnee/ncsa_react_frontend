@@ -1,20 +1,23 @@
 import { useEffect, useState } from "react";
 import ProductList from "../components/ProductList.jsx";
-
-const API = "http://localhost:8000/api/products";
+import { MakeBackendRequest } from "../services/MakeBackendRequest.js";
 
 export default function Home() {
   const [mr,setMr] = useState([]);
   const [br,setBr] = useState([]);
   const [err,setErr] = useState(null);
-  useEffect(()=>{
+
+  useEffect(() => {
     Promise.all([
-      fetch(`${API}?by=most_reviewed`).then(r=>r.json()),
-      fetch(`${API}?by=best_rated`).then(r=>r.json()),
+      MakeBackendRequest({ urlSuffix: "/api/products", queryParamsObject: { by: "most_reviewed" } }),
+      MakeBackendRequest({ urlSuffix: "/api/products", queryParamsObject: { by: "best_rated" } }),
     ])
-    .then(([a,b])=>{ setMr(a.results||[]); setBr(b.results||[]); })
-    .catch(e=>setErr(e.message));
-  },[]);
+      .then(([a, b]) => {
+        setMr(a.data.results || []);
+        setBr(b.data.results || []);
+      })
+      .catch((e) => setErr(e.message));
+  }, []);
   if(err) return <div style={{padding:24,color:"crimson"}}>Error: {err}</div>;
 
   return (
