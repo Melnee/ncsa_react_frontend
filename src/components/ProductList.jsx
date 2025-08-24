@@ -40,6 +40,15 @@ export default function ProductList({ title, items=[] }) {
         @media (min-width:768px){ .product-grid{ grid-template-columns: repeat(4, minmax(0,1fr)); } }
         @media (min-width:1024px){ .product-grid{ grid-template-columns: repeat(5, minmax(0,1fr)); } }
 
+        @keyframes fadeIn {
+          from { opacity: 0; transform: translateY(4px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .product-card {
+          animation: fadeIn 0.25s ease-in;
+        }
+
         /* constant card size */
         .product-card{
           display:flex; flex-direction:column; align-items:center; text-align:center;
