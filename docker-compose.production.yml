@@ -1,15 +1,14 @@
 services:
   web:
-    image: ${IMAGE}
-    environment:
-      - NODE_ENV=production
-    env_file:
-      - .env
+    build:
+      context: .
+      dockerfile: Dockerfile.production
     ports:
-      - "${PORT:-3002}:3002"
+      - "${PORT:-5173}:80"
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:5173/"]
+      test: ["CMD", "curl", "-f", "http://localhost:80/"]
       interval: 15s
       timeout: 5s
       retries: 5
+
