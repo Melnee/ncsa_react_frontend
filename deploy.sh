@@ -7,11 +7,11 @@ set -euo pipefail
 COMPOSE="docker-compose.production.yml"
 NGX_SNIPPET="/etc/nginx/snippets/frontend_upstream.conf"
 
-ACTIVE_PORT=`docker ps --filter "publish=3002" --format "{{.Ports}}" \
+ACTIVE_PORT=`docker ps --filter "publish=5173" --format "{{.Ports}}" \
   | awk -F'[:>-]' '{print $(NF-2)}'`
 
-NEW_PORT=$([ "$ACTIVE_PORT" = "3002" ] && echo 3003 || echo 3002)
-NEW_STACK=$([ "$NEW_PORT" = "3002" ] && echo blue || echo green)
+NEW_PORT=$([ "$ACTIVE_PORT" = "5173" ] && echo 5174 || echo 5173)
+NEW_STACK=$([ "$NEW_PORT" = "5173" ] && echo blue || echo green)
 OLD_STACK=$([ "$NEW_STACK" = "blue" ] && echo green || echo blue)
 
 echo "Active:$ACTIVE_PORT → New:$NEW_PORT ($NEW_STACK)"
