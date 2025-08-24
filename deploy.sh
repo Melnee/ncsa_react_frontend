@@ -31,7 +31,7 @@ done
 sudo sed -i -E \
   "s@(^[[:space:]]*)server 127\.0\.0\.1:$ACTIVE_PORT;@\1# server 127.0.0.1:$ACTIVE_PORT;@; \
    s@(^[[:space:]]*)#[[:space:]]*server 127\.0\.0\.1:$NEW_PORT;@\1server 127.0.0.1:$NEW_PORT;@" \
-  "$NGX_SNIP"
+  "$NGX_SNIPPET"
 sudo nginx -t && sudo systemctl reload nginx
 
 docker compose -p "$OLD_STACK" -f "$COMPOSE" down || true
